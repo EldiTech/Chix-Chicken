@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <script>document.documentElement.classList.replace('no-js','js')</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu — Unli Chix</title>
+  <meta name="description" content="The full Unli Chix unlimited feast: wings, chicken, fries, milktea, chaofan, ramen, and silog.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ─── MARQUEE ─────────────────────────────────────────────────────── */
+    .marquee-strip {
+      background: var(--gold);
+      overflow: hidden;
+      padding: 0.9rem 0;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+
+    .marquee-item {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.05rem;
+      color: var(--bg);
+      padding: 0 1.5rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .marquee-item::after {
+      content: '★';
+      font-size: 0.75rem;
+      color: oklch(0.22 0.07 35);
+    }
+
+    /* ─── FEAST ───────────────────────────────────────────────────────── */
+    .feast {
+      padding: 3rem 2rem 5rem;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .feast-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid oklch(0.83 0.19 85 / 0.10);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 800px) {
+      .feast-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .feast-grid { grid-template-columns: 1fr; }
+    }
+
+    .feast-item {
+      background: var(--surface);
+      padding: 2.25rem 1.875rem;
+      border-right: 1px solid oklch(0.83 0.19 85 / 0.08);
+      border-bottom: 1px solid oklch(0.83 0.19 85 / 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s;
+    }
+
+    .feast-item:nth-child(3n) { border-right: none; }
+    .feast-item:nth-child(n+4) { border-bottom: none; }
+
+    @media (max-width: 800px) {
+      .feast-item:nth-child(3n) { border-right: 1px solid oklch(0.83 0.19 85 / 0.08); }
+      .feast-item:nth-child(2n) { border-right: none; }
+      .feast-item:nth-child(n+4) { border-bottom: 1px solid oklch(0.83 0.19 85 / 0.08); }
+      .feast-item:nth-child(n+5) { border-bottom: none; }
+    }
+
+    @media (max-width: 480px) {
+      .feast-item { border-right: none !important; border-bottom: 1px solid oklch(0.83 0.19 85 / 0.08) !important; }
+      .feast-item:last-child { border-bottom: none !important; }
+    }
+
+    .feast-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--gold-dim), var(--gold));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .feast-item:hover { background: var(--surface-hi); }
+    .feast-item:hover::after { transform: scaleX(1); }
+
+    .feast-img-wrap {
+      margin: -2.25rem -1.875rem 1.25rem;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .feast-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .feast-item:hover .feast-img { transform: scale(1.06); }
+
+    .feast-tag {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--gold-dim);
+    }
+
+    .feast-name {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.65rem;
+      color: var(--white);
+      line-height: 1.1;
+    }
+
+    .feast-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 26ch;
+      margin-top: 0.25rem;
+    }
+
+    /* ─── PROMISE ─────────────────────────────────────────────────────── */
+    .promise {
+      background: var(--surface);
+      border-top: 1px solid oklch(0.83 0.19 85 / 0.08);
+      padding: 7rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promise-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 50% 50%, oklch(0.68 0.22 78 / 0.09) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .promise-content { position: relative; z-index: 1; }
+
+    .promise-heading {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(3.5rem, 11vw, 9rem);
+      line-height: 0.92;
+      color: var(--white);
+      text-wrap: balance;
+      margin-bottom: 2rem;
+    }
+
+    .promise-heading .accent { color: var(--gold); }
+
+    .promise-body {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--muted);
+      font-weight: 600;
+      max-width: 44ch;
+      margin: 0 auto 2.75rem;
+      line-height: 1.65;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <a href="index.html" class="nav-brand">Unli Chix</a>
+    <ul class="nav-links">
+      <li><a href="menu.html" class="active">Menu</a></li>
+      <li><a href="branches.html">Branches</a></li>
+      <li><a href="branches.html" class="nav-cta">Find a Branch</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <p class="page-header-kicker reveal">The Unlimited Feast</p>
+    <h1 class="page-header-heading reveal">
+      Everything's <span class="accent">unlimited.</span><br>
+      Nothing's held back.
+    </h1>
+  </div>
+
+  <div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-track" id="marqueeTrack">
+      <span class="marquee-item">UNLIMITED WINGS</span>
+      <span class="marquee-item">UNLIMITED CHICKEN</span>
+      <span class="marquee-item">UNLIMITED FRIES</span>
+      <span class="marquee-item">UNLI MILKTEA</span>
+      <span class="marquee-item">UNLI CHAOFAN</span>
+      <span class="marquee-item">UNLI RAMEN</span>
+      <span class="marquee-item">UNLI SILOG</span>
+      <span class="marquee-item">UNLI DRINKS</span>
+    </div>
+  </div>
+
+  <section class="feast">
+    <div class="feast-grid">
+      <div class="feast-item reveal">
+        <div class="feast-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1600555379765-f82335a7b1b0?auto=format&fit=crop&w=800&h=600&q=80"
+            alt="Crispy golden Unli Chix wings on a plate, garnished with greens"
+            class="feast-img"
+            width="800" height="600"
+            loading="lazy" decoding="async"
+          >
+        </div>
+        <span class="feast-tag">Signature</span>
+        <h2 class="feast-name">Unlimited Wings</h2>
+        <p class="feast-desc">Crispy, golden, and never-ending. The wings that started it all, kept coming until you say stop.</p>
+      </div>
+
+      <div class="feast-item reveal">
+        <div class="feast-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=800&h=600&q=80"
+            alt="Golden straight-cut fries in a basket, lightly salted"
+            class="feast-img"
+            width="800" height="600"
+            loading="lazy" decoding="async"
+          >
+        </div>
+        <span class="feast-tag">All-day</span>
+        <h2 class="feast-name">Fries</h2>
+        <p class="feast-desc">Hot, salted, and always refilled. Straight-cut every time, no waiting.</p>
+      </div>
+
+      <div class="feast-item reveal">
+        <div class="feast-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1745883949374-baeba0ed57c3?auto=format&fit=crop&w=800&h=600&q=80"
+            alt="Chilled milk tea with boba pearls and fresh toppings"
+            class="feast-img"
+            width="800" height="600"
+            loading="lazy" decoding="async"
+          >
+        </div>
+        <span class="feast-tag">Drinks</span>
+        <h2 class="feast-name">Milktea</h2>
+        <p class="feast-desc">Creamy milk tea with the toppings you want, refilled the moment your cup hits the table.</p>
+      </div>
+
+      <div class="feast-item reveal">
+        <div class="feast-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=800&h=600&q=80"
+            alt="A bowl of ramen with rich broth, noodles, and generous toppings"
+            class="feast-img"
+            width="800" height="600"
+            loading="lazy" decoding="async"
+          >
+        </div>
+        <span class="feast-tag">Hearty bowl</span>
+        <h2 class="feast-name">Ramen</h2>
+        <p class="feast-desc">Rich broth, soft noodles, generous toppings. Ask for another bowl when you're ready.</p>
+      </div>
+
+      <div class="feast-item reveal">
+        <div class="feast-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=800&h=600&q=80"
+            alt="Wok-fried chaofan with egg and vegetables on a white plate"
+            class="feast-img"
+            width="800" height="600"
+            loading="lazy" decoding="async"
+          >
+        </div>
+        <span class="feast-tag">Chinese-Filipino</span>
+        <h2 class="feast-name">Chaofan</h2>
+        <p class="feast-desc">Wok-fried rice with egg, vegetables, and savory seasoning. The rice course that holds everything together.</p>
+      </div>
+
+      <div class="feast-item reveal">
+        <div class="feast-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1600688654899-379ec76aca42?auto=format&fit=crop&w=800&h=600&q=80"
+            alt="Garlic fried rice topped with a sunny-side-up egg, silog-style"
+            class="feast-img"
+            width="800" height="600"
+            loading="lazy" decoding="async"
+          >
+        </div>
+        <span class="feast-tag">Breakfast any time</span>
+        <h2 class="feast-name">Silog</h2>
+        <p class="feast-desc">Garlic rice, fried egg, your choice of viand. Morning, noon, or well past midnight.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="promise">
+    <div class="promise-glow"></div>
+    <div class="promise-content">
+      <h2 class="promise-heading reveal">
+        <span class="accent">Unli</span> Sarap.<br>
+        <span class="accent">Unli</span> Sulit.
+      </h2>
+      <p class="promise-body reveal">
+        One price, every table, all the food you can eat. Bring your family, your barkada, your whole barangay.
+      </p>
+      <a href="branches.html" class="btn-primary reveal">Find a Branch Near You</a>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <a href="index.html" class="footer-brand">Unli Chix</a>
+      <div class="footer-tagline">Unli Sarap. Unli Sulit.</div>
+    </div>
+    <div class="footer-copy">© 2025 Unli Chix. All rights reserved.</div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Nav scroll state
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // Marquee duplication for seamless loop
+    (function () {
+      const track = document.getElementById('marqueeTrack');
+      track.innerHTML = track.innerHTML + track.innerHTML;
+    })();
+
+    const mm = gsap.matchMedia();
+
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      // Page header entrance
+      gsap.timeline({
+        scrollTrigger: { trigger: '.page-header', start: 'top 85%', once: true },
+        defaults: { ease: 'power3.out' }
+      })
+        .from('.page-header-kicker',  { opacity: 0, y: 12, duration: 0.45 })
+        .from('.page-header-heading', { opacity: 0, y: 20, duration: 0.6 }, '-=0.1');
+
+      // Feast grid — staggered batch reveal
+      ScrollTrigger.batch('.feast-item', {
+        onEnter: batch => gsap.from(batch, {
+          opacity: 0, y: 28, stagger: 0.07, duration: 0.55, ease: 'power2.out',
+        }),
+        start: 'top 88%',
+        once: true,
+      });
+
+      // Promise section — sequential entrance
+      gsap.timeline({
+        scrollTrigger: { trigger: '.promise', start: 'top 72%', once: true },
+        defaults: { ease: 'power3.out' }
+      })
+        .from('.promise-heading',      { opacity: 0, y: 30, duration: 0.7 })
+        .from('.promise-body',         { opacity: 0, y: 16, duration: 0.5, ease: 'power2.out' }, '-=0.35')
+        .from('.promise .btn-primary', { opacity: 0, y: 12, duration: 0.4, ease: 'power2.out' }, '-=0.2');
+    });
+
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      gsap.set(
+        ['.page-header-kicker', '.page-header-heading',
+         '.feast-item', '.promise-heading', '.promise-body', '.promise .btn-primary'],
+        { opacity: 1, y: 0, clearProps: 'all' }
+      );
+    });
+  </script>
+</body>
+</html>

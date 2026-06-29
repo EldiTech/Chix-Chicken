@@ -1,0 +1,223 @@
+/* ─── RESET ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── TOKENS ─────────────────────────────────────────────────────────── */
+:root {
+  --bg:          oklch(0.11 0.035 30);
+  --surface:     oklch(0.17 0.04 32);
+  --surface-hi:  oklch(0.23 0.05 34);
+  --gold:        oklch(0.83 0.19 85);
+  --gold-bright: oklch(0.91 0.17 90);
+  --gold-dim:    oklch(0.65 0.20 76);
+  --gold-glow:   oklch(0.68 0.22 78);
+  --cream:       oklch(0.93 0.02 82);
+  --muted:       oklch(0.60 0.025 78);
+  --white:       oklch(0.98 0 0);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ─── NAV ─────────────────────────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+  background: linear-gradient(to bottom, oklch(0.09 0.03 30 / 0.95), transparent);
+  transition: background 0.3s, backdrop-filter 0.3s;
+}
+
+.nav.scrolled {
+  background: oklch(0.11 0.035 30 / 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid oklch(0.83 0.19 85 / 0.08);
+}
+
+.nav-brand {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.5rem;
+  color: var(--gold);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active { color: var(--cream); }
+
+.nav-cta {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--bg) !important;
+  background: var(--gold);
+  border: none;
+  border-radius: 100px;
+  padding: 0.6rem 1.4rem;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.nav-cta:hover {
+  background: var(--gold-bright) !important;
+  transform: translateY(-1px);
+  color: var(--bg) !important;
+}
+
+@media (max-width: 640px) {
+  .nav { padding: 1rem 1.25rem; }
+  .nav-links { display: none; }
+}
+
+/* ─── BUTTONS ─────────────────────────────────────────────────────────── */
+.btn-primary {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--bg);
+  background: var(--gold);
+  border: none;
+  border-radius: 100px;
+  padding: 0.875rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.btn-primary:hover {
+  background: var(--gold-bright);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--gold);
+  background: transparent;
+  border: 1.5px solid oklch(0.83 0.19 85 / 0.35);
+  border-radius: 100px;
+  padding: 0.875rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.btn-ghost:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+/* ─── PAGE HEADER (inner pages) ───────────────────────────────────────── */
+.page-header {
+  padding: 9rem 2rem 4rem;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.page-header-kicker {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.95rem;
+  color: var(--gold-dim);
+  margin-bottom: 0.75rem;
+}
+
+.page-header-heading {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  color: var(--white);
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.page-header-heading .accent { color: var(--gold); }
+
+/* ─── FOOTER ──────────────────────────────────────────────────────────── */
+footer {
+  padding: 2.5rem 2rem;
+  border-top: 1px solid oklch(0.83 0.19 85 / 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-brand {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.4rem;
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.footer-tagline {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.footer-copy {
+  font-size: 0.8rem;
+  color: oklch(0.42 0.018 80);
+}
+
+@media (max-width: 640px) {
+  footer { padding: 2rem 1.25rem; flex-direction: column; align-items: flex-start; }
+}
+
+/* ─── KEYFRAMES ───────────────────────────────────────────────────────── */
+/* twinkle: CSS-only star effect — intentionally kept out of GSAP */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.7); }
+  50%       { opacity: 1;   transform: scale(1.5); }
+}
+
+/* marquee: pure CSS scroll — no JS dependency */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ─── REDUCED MOTION ──────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .marquee-track { animation: none !important; }
+}

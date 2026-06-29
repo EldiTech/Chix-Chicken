@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <script>document.documentElement.classList.replace('no-js','js')</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Branches - Unli Chix</title>
+  <meta name="description" content="Visit the Unli Chix branch at Libongco Subdivision, Manggahan, Rodriguez.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .location-page {
+      padding: 7.25rem 2rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .location-page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 48% 42% at 18% 28%, oklch(0.68 0.22 78 / 0.16), transparent 62%),
+        radial-gradient(ellipse 45% 38% at 82% 12%, oklch(0.76 0.16 145 / 0.07), transparent 66%),
+        linear-gradient(180deg, oklch(0.09 0.04 30) 0%, var(--bg) 100%);
+      pointer-events: none;
+    }
+
+    .location-shell {
+      width: min(1160px, 100%);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .location-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+
+    .branch-logo-wrap {
+      width: clamp(108px, 12vw, 154px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      padding: 10px;
+      border: 1.5px solid oklch(0.83 0.19 85 / 0.28);
+      background: oklch(0.12 0.04 31 / 0.72);
+      box-shadow: 0 0 58px oklch(0.68 0.22 78 / 0.28);
+    }
+
+    .branch-logo {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 28px oklch(0.68 0.22 78 / 0.30));
+    }
+
+    .location-kicker {
+      font-family: 'Fredoka One', cursive;
+      color: var(--gold);
+      font-size: 0.95rem;
+      margin-top: 0.35rem;
+    }
+
+    .location-heading {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2.7rem, 5vw, 4.7rem);
+      line-height: 0.98;
+      color: var(--white);
+      letter-spacing: 0;
+      max-width: 9.4ch;
+    }
+
+    .location-heading .accent { color: var(--gold); }
+
+    .location-sub {
+      max-width: 42ch;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .location-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      padding-top: 0.35rem;
+    }
+
+    .location-stage {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .branch-card {
+      background: linear-gradient(145deg, oklch(0.19 0.05 32), oklch(0.13 0.04 30));
+      border: 1px solid oklch(0.83 0.19 85 / 0.16);
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: 0 28px 80px oklch(0 0 0 / 0.32);
+    }
+
+    .branch-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .branch-name {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.6rem, 3vw, 2rem);
+      color: var(--white);
+      line-height: 1.05;
+    }
+
+    .branch-badge {
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 100px;
+      padding: 0.35rem 0.85rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+      color: oklch(0.76 0.16 145);
+      background: oklch(0.76 0.16 145 / 0.12);
+    }
+
+    .branch-address {
+      color: var(--cream);
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.55;
+      max-width: 34rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .branch-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+      padding-top: 1rem;
+      border-top: 1px solid oklch(0.83 0.19 85 / 0.10);
+    }
+
+    .branch-detail-row {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      min-height: 2.75rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .branch-detail-icon,
+    .button-icon {
+      width: 1.1rem;
+      height: 1.1rem;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .button-icon { color: currentColor; }
+
+    .branch-detail-icon svg,
+    .button-icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      stroke: currentColor;
+    }
+
+    .map-preview {
+      min-height: 236px;
+      border-radius: 18px;
+      border: 1px solid oklch(0.83 0.19 85 / 0.13);
+      overflow: hidden;
+      position: relative;
+      display: block;
+      text-decoration: none;
+      background:
+        linear-gradient(90deg, transparent 49%, oklch(0.83 0.19 85 / 0.12) 50%, transparent 51%) 0 0 / 82px 82px,
+        linear-gradient(0deg, transparent 49%, oklch(0.83 0.19 85 / 0.10) 50%, transparent 51%) 0 0 / 82px 82px,
+        radial-gradient(circle at 58% 42%, oklch(0.83 0.19 85 / 0.22), transparent 30%),
+        oklch(0.15 0.045 32);
+      box-shadow: inset 0 0 80px oklch(0 0 0 / 0.32);
+    }
+
+    .map-road {
+      position: absolute;
+      inset: auto -8% 34% -8%;
+      height: 76px;
+      background: oklch(0.22 0.055 36);
+      transform: rotate(-10deg);
+      border-top: 1px solid oklch(0.83 0.19 85 / 0.10);
+      border-bottom: 1px solid oklch(0.83 0.19 85 / 0.10);
+    }
+
+    .map-road::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, var(--gold) 0 26px, transparent 26px 48px);
+      opacity: 0.7;
+    }
+
+    .map-pin {
+      position: absolute;
+      left: 56%;
+      top: 34%;
+      width: 3rem;
+      height: 3rem;
+      display: grid;
+      place-items: center;
+      color: var(--bg);
+      background: var(--gold);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      box-shadow: 0 12px 34px oklch(0 0 0 / 0.34);
+    }
+
+    .map-pin svg {
+      width: 1.4rem;
+      height: 1.4rem;
+      stroke: currentColor;
+      transform: rotate(45deg);
+    }
+
+    .map-label {
+      position: absolute;
+      left: 1.25rem;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      color: var(--cream);
+      font-weight: 900;
+      background: oklch(0.10 0.035 30 / 0.82);
+      border: 1px solid oklch(0.83 0.19 85 / 0.14);
+      border-radius: 12px;
+      padding: 1rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .map-label span:last-child {
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .visit-strip {
+      width: min(1160px, calc(100% - 4rem));
+      margin: 0 auto 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid oklch(0.83 0.19 85 / 0.12);
+      border-bottom: 1px solid oklch(0.83 0.19 85 / 0.12);
+    }
+
+    .visit-note {
+      padding: 1.15rem 1.35rem;
+      border-right: 1px solid oklch(0.83 0.19 85 / 0.10);
+    }
+
+    .visit-note:last-child { border-right: 0; }
+
+    .visit-note strong {
+      display: block;
+      font-family: 'Fredoka One', cursive;
+      color: var(--white);
+      font-size: 1.12rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .visit-note span {
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 920px) {
+      .location-shell {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .location-copy {
+        align-items: center;
+        text-align: center;
+      }
+
+      .location-actions { justify-content: center; }
+    }
+
+    @media (max-width: 640px) {
+      .location-page { padding: 6.25rem 1.25rem 2rem; }
+      .branch-card { padding: 1.35rem; }
+      .branch-card-top { flex-direction: column; }
+      .branch-meta { grid-template-columns: 1fr; }
+      .map-label {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .visit-strip {
+        width: calc(100% - 2.5rem);
+        grid-template-columns: 1fr;
+      }
+      .visit-note {
+        border-right: 0;
+        border-bottom: 1px solid oklch(0.83 0.19 85 / 0.10);
+      }
+      .visit-note:last-child { border-bottom: 0; }
+    }
+
+    footer {
+      padding-top: 1.6rem;
+      padding-bottom: 1.6rem;
+    }
+  </style>
+</head>
+<body>
+  <svg aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute; overflow:hidden;">
+    <symbol id="icon-map-pin" viewBox="0 0 24 24">
+      <path d="M12 21s7-5.3 7-12a7 7 0 0 0-14 0c0 6.7 7 12 7 12Z" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      <circle cx="12" cy="9" r="2.5" fill="none" stroke-width="2"></circle>
+    </symbol>
+    <symbol id="icon-shop" viewBox="0 0 24 24">
+      <path d="M4 10h16l-1.4-5H5.4L4 10Z" fill="none" stroke-width="2" stroke-linejoin="round"></path>
+      <path d="M6 10v9h12v-9" fill="none" stroke-width="2" stroke-linecap="round"></path>
+      <path d="M9 19v-5h6v5" fill="none" stroke-width="2" stroke-linejoin="round"></path>
+    </symbol>
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24">
+      <path d="M5 12h14" fill="none" stroke-width="2" stroke-linecap="round"></path>
+      <path d="m13 6 6 6-6 6" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </symbol>
+  </svg>
+
+  <nav class="nav" id="nav">
+    <a href="index.html" class="nav-brand">Unli Chix</a>
+    <ul class="nav-links">
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="branches.html" class="active">Branches</a></li>
+      <li><a href="login.html" class="nav-cta">Order Now</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="location-page">
+      <div class="location-shell">
+        <div class="location-copy">
+          <div class="branch-logo-wrap reveal" role="img" aria-label="Unli Chix logo">
+            <img
+              src="Assets/Unli%20Chix.png"
+              alt="Unli Chix logo"
+              class="branch-logo"
+              width="480"
+              height="480"
+            >
+          </div>
+          <p class="location-kicker reveal">Only branch</p>
+          <h1 class="location-heading reveal">
+            Find us in <span class="accent">Rodriguez.</span>
+          </h1>
+          <p class="location-sub reveal">
+            Visit Unli Chix at Libongco Subdivision in Manggahan for unlimited wings, chicken, fries, milktea, ramen, and more.
+          </p>
+          <div class="location-actions reveal">
+            <a class="btn-primary" href="https://www.bing.com/maps/search?v=2&amp;pc=FACEBK&amp;mid=8100&amp;mkt=en-US&amp;FORM=FBKPL1&amp;q=0310+Libongco+Subdivision+Manggahan%2C+Rodriguez%2C+Philippines%2C+1860&amp;cp=14.698891%7E121.301186&amp;lvl=11&amp;style=r" target="_blank" rel="noopener">
+              <span>Get Directions</span>
+              <span class="button-icon"><svg><use href="#icon-arrow-right"></use></svg></span>
+            </a>
+            <a class="btn-ghost" href="menu.html">View Menu</a>
+          </div>
+        </div>
+
+        <div class="location-stage">
+          <div class="branch-card reveal">
+            <div class="branch-card-top">
+              <h2 class="branch-name">Unli Chix Rodriguez</h2>
+              <span class="branch-badge">Only Branch</span>
+            </div>
+            <p class="branch-address">0310 Libongco Subdivision, Manggahan, Rodriguez, Philippines, 1860</p>
+            <div class="branch-meta">
+              <div class="branch-detail-row">
+                <span class="branch-detail-icon"><svg><use href="#icon-map-pin"></use></svg></span>
+                <span>Rodriguez, Rizal</span>
+              </div>
+              <div class="branch-detail-row">
+                <span class="branch-detail-icon"><svg><use href="#icon-shop"></use></svg></span>
+                <span>Dine-in branch</span>
+              </div>
+            </div>
+          </div>
+
+          <a class="map-preview reveal" href="https://www.bing.com/maps/search?v=2&amp;pc=FACEBK&amp;mid=8100&amp;mkt=en-US&amp;FORM=FBKPL1&amp;q=0310+Libongco+Subdivision+Manggahan%2C+Rodriguez%2C+Philippines%2C+1860&amp;cp=14.698891%7E121.301186&amp;lvl=11&amp;style=r" target="_blank" rel="noopener" aria-label="Open Unli Chix Rodriguez in maps">
+            <span class="map-road"></span>
+            <span class="map-pin"><svg><use href="#icon-map-pin"></use></svg></span>
+            <span class="map-label">
+              <span>0310 Libongco Subdivision</span>
+              <span>Open Maps</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="visit-strip" aria-label="Visit notes">
+      <div class="visit-note reveal">
+        <strong>One location</strong>
+        <span>All visits currently go through the Rodriguez branch.</span>
+      </div>
+      <div class="visit-note reveal">
+        <strong>Easy to find</strong>
+        <span>Use the map button for the exact Libongco Subdivision pin.</span>
+      </div>
+      <div class="visit-note reveal">
+        <strong>Ready to feast</strong>
+        <span>Check the menu first, then head over hungry.</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <a href="index.html" class="footer-brand">Unli Chix</a>
+      <div class="footer-tagline">Unli Sarap. Unli Sulit.</div>
+    </div>
+    <div class="footer-copy">&copy; 2025 Unli Chix. All rights reserved.</div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    const mm = gsap.matchMedia();
+
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.timeline({
+        scrollTrigger: { trigger: '.location-page', start: 'top 85%', once: true },
+        defaults: { ease: 'power3.out' }
+      })
+        .from('.branch-logo-wrap', { opacity: 0, scale: 0.9, duration: 0.55, ease: 'back.out(1.35)' })
+        .from('.location-kicker',  { opacity: 0, y: 12, duration: 0.45 }, '-=0.2')
+        .from('.location-heading', { opacity: 0, y: 20, duration: 0.6 }, '-=0.1')
+        .from('.location-sub',     { opacity: 0, y: 14, duration: 0.5 }, '-=0.2')
+        .from('.location-actions', { opacity: 0, y: 14, duration: 0.45 }, '-=0.2')
+        .from('.branch-card',      { opacity: 0, x: 24, duration: 0.55 }, '-=0.45')
+        .from('.map-preview',      { opacity: 0, x: 24, duration: 0.55 }, '-=0.35');
+
+      ScrollTrigger.batch('.visit-note', {
+        onEnter: batch => gsap.from(batch, {
+          opacity: 0, y: 18, stagger: 0.08, duration: 0.5, ease: 'power2.out',
+        }),
+        start: 'top 88%',
+        once: true,
+      });
+    });
+
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      gsap.set(
+        ['.branch-logo-wrap', '.location-kicker', '.location-heading',
+         '.location-sub', '.location-actions', '.branch-card', '.map-preview', '.visit-note'],
+        { opacity: 1, x: 0, y: 0, scale: 1, clearProps: 'all' }
+      );
+    });
+  </script>
+</body>
+</html>
