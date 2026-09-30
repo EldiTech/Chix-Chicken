@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kitchen Board — Unli Chix</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/session.js" defer></script>
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
+  <script type="module" src="js/firebase.js"></script>
+</head>
+<body data-protected>
+  <nav class="nav" aria-label="Main">
+    <a class="nav-brand" href="index.html">Unli Chix</a>
+    <div class="account-nav">
+      <a href="menu.html">The feast</a>
+      <span class="role-badge" id="roleBadge"></span>
+      <a href="login.html" class="nav-cta" data-logout>Log out</a>
+    </div>
+  </nav>
+  <div class="dash">
+    <nav class="rail" id="rail" aria-label="Board views"></nav>
+    <main class="dash-main">
+      <header class="dash-head">
+        <div>
+          <p class="eyebrow" id="boardName">All branches · Staff board</p>
+          <h1 class="display">Keep the <span class="accent">feast</span> moving.</h1>
+        </div>
+        <div class="dash-actions">
+          <div class="board-branch">
+            <label class="field-label" for="boardBranch">Branch</label>
+            <select class="form-input" id="boardBranch"><option value="">All branches</option></select>
+          </div>
+          <button type="button" class="btn-ghost" id="newHold">New hold</button>
+          <button type="button" class="btn-primary" id="newReserve">New reserve</button>
+        </div>
+      </header>
+      <section class="queue" id="board" aria-labelledby="viewTitle">
+        <h2 class="queue-title" id="viewTitle" tabindex="-1">All tickets</h2>
+        <div class="tkt-grid" id="tickets" hidden></div>
+        <ul class="hidden-list" id="hiddenList" hidden></ul>
+        <div class="queue-empty" id="queueEmpty">
+          <p class="queue-empty-title" id="emptyTitle">No tickets on the rail.</p>
+          <p class="queue-empty-hint" id="emptyHint">Orders, holds, and reserves land here as they come in.</p>
+        </div>
+        <p class="sr" id="boardStatus" role="status"></p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

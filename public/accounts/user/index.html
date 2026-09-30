@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Account — Unli Chix</title>
+  <link rel="stylesheet" href="../../css/styles.css">
+  <link rel="stylesheet" href="user.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="../../js/session.js" defer></script>
+  <script type="module" src="../../js/app.js"></script>
+  <script type="module" src="user.js"></script>
+  <script type="module" src="../../js/firebase.js"></script>
+</head>
+<body data-protected>
+  <nav class="nav">
+    <a class="nav-brand" href="../../index.html">Unli Chix</a>
+    <div class="user-nav" aria-label="Customer navigation">
+      <a href="../../menu.html">The feast</a>
+      <a href="../../branches.html">Branches</a>
+      <a href="book.html">Book a table</a>
+      <a href="#plans">My plans</a>
+      <a href="#hold">Hold pickup</a>
+      <a href="#account">My account</a>
+      <a href="../../login.html" class="nav-cta" id="logout" data-logout>Log out</a>
+    </div>
+  </nav>
+  <main class="page">
+    <header class="member-top"><div><p class="eyebrow">Customer account</p><h1 class="display">Hi, <span class="accent" data-first-name>there.</span></h1></div><a class="btn-primary" href="../../menu.html">Start an order</a></header>
+    <section class="ticket pass" aria-label="Feast pass"><p class="eyebrow">Your feast pass</p><h2 data-name>Your feast pass</h2><p id="passEmail" class="pass-email"></p><hr class="pass-rule"><small id="passMeta">&nbsp;</small></section>
+    <section class="grid two section-space">
+      <article class="card is-loading" id="plans" aria-busy="true"><p class="label">My plans</p><div class="card-body" id="plansBody" aria-live="polite"><span class="skel skel-title"></span><span class="skel skel-line"></span><span class="skel skel-line short"></span></div></article>
+      <article class="card is-loading" id="meals" aria-busy="true"><p class="label">Your meals</p><div class="card-body" id="mealsBody" aria-live="polite"><span class="skel skel-title"></span><span class="skel skel-line"></span><span class="skel skel-line short"></span></div></article>
+    </section>
+    <section class="card section-space" id="hold"><p class="label">Pickup service</p><h2 class="section-title">Hold an item</h2><p class="lede">Ramen and chaofan run out. Hold some for pickup later today at your branch.</p><button class="btn-primary" type="button" id="holdOpen">Hold an item</button><div id="holdsBody" class="holds" aria-live="polite"></div></section>
+    <section class="card section-space" id="account"><p class="label">My account</p><h2 class="section-title">Account details</h2><form class="settings" id="profileForm"><label class="field">Display name<input id="displayName" maxlength="60" autocomplete="name" required></label><label class="field">Email address<input id="email" type="email" readonly aria-describedby="emailNote"><small class="form-hint" id="emailNote">The email you sign in with. It can’t be changed here.</small></label><div><button class="btn-primary" type="submit" id="saveBtn">Save changes</button> <small id="saveNote" class="save-note" aria-live="polite"></small></div></form></section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book a Table — Unli Chix</title>
+  <link rel="stylesheet" href="../../css/styles.css">
+  <link rel="stylesheet" href="user.css">
+  <script src="../../js/session.js" defer></script>
+  <script type="module" src="../../js/app.js"></script>
+  <script type="module" src="book.js"></script>
+  <script type="module" src="../../js/firebase.js"></script>
+</head>
+<body data-protected>
+  <nav class="nav">
+    <a class="nav-brand" href="../../index.html">Unli Chix</a>
+    <div class="user-nav" aria-label="Customer navigation">
+      <a href="../../menu.html">The feast</a>
+      <a href="../../branches.html">Branches</a>
+      <a href="index.html">My account</a>
+      <a href="../../login.html" class="nav-cta" data-logout>Log out</a>
+    </div>
+  </nav>
+  <main class="page book">
+    <a class="text-link" href="../../branches.html">← All branches</a>
+    <header class="book-head">
+      <p class="eyebrow">Plan a visit</p>
+      <h1 class="display">Save us <span class="accent">a table.</span></h1>
+      <p class="lede" id="branchLine" aria-live="polite">Finding your branch…</p>
+    </header>
+
+    <ol class="book-steps" aria-label="Booking steps">
+      <li data-step="1" aria-current="step"><span>1</span> When</li>
+      <li data-step="2"><span>2</span> Who</li>
+      <li data-step="3"><span>3</span> Confirm</li>
+    </ol>
+
+    <form class="ticket book-card" id="bookForm" novalidate>
+      <!-- Step 1: date + time -->
+      <fieldset class="book-step" data-step="1">
+        <legend class="section-title" tabindex="-1">When are you coming?</legend>
+        <div class="form-field">
+          <label class="field-label" for="bkDate">Date</label>
+          <input class="form-input" id="bkDate" type="date" required aria-describedby="bkDateHint">
+          <p class="form-hint" id="bkDateHint"></p>
+        </div>
+        <div class="form-field">
+          <p class="field-label" id="slotLabel">Time</p>
+          <div class="slots" id="slots" role="radiogroup" aria-labelledby="slotLabel"></div>
+          <p class="form-hint" id="slotHint">Tables are held for 15 minutes past your time.</p>
+        </div>
+      </fieldset>
+
+      <!-- Step 2: party + contact -->
+      <fieldset class="book-step" data-step="2" hidden>
+        <legend class="section-title" tabindex="-1">Who’s coming?</legend>
+        <div class="form-field">
+          <label class="field-label" for="bkParty">Party size</label>
+          <div class="stepper">
+            <button type="button" class="btn-ghost" id="partyDown" aria-label="One fewer guest">−</button>
+            <input class="form-input" id="bkParty" type="number" min="1" max="20" step="1" inputmode="numeric" value="2">
+            <button type="button" class="btn-ghost" id="partyUp" aria-label="One more guest">+</button>
+          </div>
+          <p class="form-hint">Up to 20. For bigger groups or catering, call the branch and we’ll set it up.</p>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="field-label" for="bkName">Name for the booking</label>
+            <input class="form-input" id="bkName" maxlength="60" autocomplete="name" required>
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="bkPhone">Mobile number</label>
+            <input class="form-input" id="bkPhone" type="tel" maxlength="20" autocomplete="tel" placeholder="Optional" aria-describedby="bkPhoneHint">
+            <p class="form-hint" id="bkPhoneHint">Only used if we need to reach you about this table.</p>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="bkNotes">Notes</label>
+          <textarea class="form-input" id="bkNotes" maxlength="120" rows="2" placeholder="Optional — birthday, high chair, allergies"></textarea>
+        </div>
+      </fieldset>
+
+      <!-- Step 3: review -->
+      <fieldset class="book-step" data-step="3" hidden>
+        <legend class="section-title" tabindex="-1">Look right?</legend>
+        <dl class="book-review" id="review"></dl>
+        <p class="notice" id="dupeNote" hidden></p>
+        <p class="form-hint">You can cancel from your account any time before your table.</p>
+      </fieldset>
+
+      <p class="form-error" id="bookError" role="alert" hidden></p>
+      <div class="book-actions">
+        <button type="button" class="btn-ghost" id="backBtn" hidden>Back</button>
+        <button type="submit" class="btn-primary" id="nextBtn">Next</button>
+      </div>
+    </form>
+
+    <!-- Done -->
+    <section class="ticket book-card book-done" id="done" hidden tabindex="-1" aria-labelledby="doneTitle">
+      <p class="eyebrow">You’re booked</p>
+      <h2 class="section-title" id="doneTitle">See you soon!</h2>
+      <p class="book-no" id="doneNo"></p>
+      <dl class="book-review" id="doneReview"></dl>
+      <p class="form-hint">Show your reservation number when you arrive. It’s also in My plans on your account.</p>
+      <div class="book-actions">
+        <button type="button" class="btn-ghost" id="icsBtn">Add to calendar</button>
+        <a class="btn-ghost" id="viewBtn" href="index.html">View reservation</a>
+        <a class="btn-primary" href="index.html">Back to my account</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

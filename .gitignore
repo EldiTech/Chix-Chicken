@@ -1,2 +1,10 @@
+# Secrets — service account keys never leave this machine
+.secrets/
+*service-account*.json
+*-firebase-adminsdk-*.json
+
+# Tooling
+.firebase/
 .impeccable/
-Assets/*.exe
+node_modules/
+*-debug.log

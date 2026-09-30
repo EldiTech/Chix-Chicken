@@ -1,0 +1,13 @@
+[
+  {
+    "id": "Rodriguez",
+    "name": "Rodriguez",
+    "address": "J.P. Rizal Street, Rodriguez, Rizal",
+    "phone": "",
+    "open": "10:00",
+    "lastSeating": "20:30",
+    "close": "22:00",
+    "active": true,
+    "sort": 10
+  }
+]

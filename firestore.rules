@@ -1,0 +1,196 @@
+rules_version = '2';
+
+// Unli Chix — Firestore security rules. These, not the browser, enforce roles
+// and data shape (docs/plan.md "Security Rules"). Every check the site makes in
+// JavaScript is repeated here, because anyone can skip the site and call
+// Firestore directly with their own sign-in.
+//
+// Deploy:  firebase deploy --only firestore:rules   (or paste into Console → Firestore → Rules)
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function me() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function isStaff() { return signedIn() && me().role in ['staff', 'manager']; }
+    function isManager() { return signedIn() && me().role == 'manager'; }
+    function dish(itemId) { return get(/databases/$(database)/documents/menuItems/$(itemId)).data; }
+    // A dish customers can hold right now: on the menu, marked limited, not hidden.
+    function holdable(itemId) {
+      return exists(/databases/$(database)/documents/menuItems/$(itemId))
+        && dish(itemId).get('limited', false) == true
+        && dish(itemId).get('hidden', false) != true;
+    }
+    function branch(id) { return get(/databases/$(database)/documents/branches/$(id)).data; }
+    // A branch taking bookings right now: configured by a manager, not paused.
+    function bookable(id) {
+      return id is string
+        && exists(/databases/$(database)/documents/branches/$(id))
+        && branch(id).get('active', false) == true;
+    }
+
+    // ── users/{uid}: each person's role ──────────────────────────────────
+    // Read your own profile; create it once, as a customer; edit only your
+    // display name. Staff and manager roles are set in the Firebase console.
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['role', 'email', 'createdAt'])
+        && request.resource.data.role == 'customer'
+        && request.resource.data.email == request.auth.token.email;
+
+      allow update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'updatedAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1
+        && request.resource.data.name.size() <= 60;
+
+      allow delete: if false;
+    }
+
+    // ── tickets/{id}: orders, holds, and reserves ────────────────────────
+    match /tickets/{ticketId} {
+      // A ticket is "yours" if you placed it, or staff booked it under your
+      // sign-in email. Firestore checks every query against this, so a
+      // customer query must filter on ownerUid or customer.email to succeed.
+      function mine() {
+        return resource.data.ownerUid == request.auth.uid
+          || resource.data.customer.email == request.auth.token.email;
+      }
+
+      // Staff see the whole board; a customer sees only their own tickets.
+      allow read: if isStaff() || (signedIn() && mine());
+
+      // A customer's own table booking: under their sign-in email, 1–20
+      // guests, during that branch's seating hours, within the next 31 days.
+      // create below has already checked the branch is bookable.
+      function customerTable() {
+        let d = request.resource.data;
+        return d.customer.email == request.auth.token.email
+          && d.customer.keys().hasOnly(['name', 'email', 'phone'])
+          && d.customer.name is string && d.customer.name.size() >= 1 && d.customer.name.size() <= 60
+          && d.customer.get('phone', '') is string && d.customer.get('phone', '').size() <= 20
+          && d.party is int && d.party >= 1 && d.party <= 20
+          && d.date is string && d.slot is string
+          && d.slot >= branch(d.branch).open && d.slot <= branch(d.branch).lastSeating
+          && d.at is timestamp
+          && d.at > request.time
+          && d.at < request.time + duration.value(31, 'd');
+      }
+
+      // Customers may place a pickup hold on a limited dish that isn't
+      // hidden, or book a table — both only for themselves. Staff may also
+      // book reserves (catering) for anyone. Either way, only at a branch
+      // that's taking bookings.
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['no', 'type', 'status', 'where', 'time', 'party', 'items', 'itemId', 'customer', 'ownerUid', 'branch', 'date', 'slot', 'at', 'createdAt', 'updatedAt'])
+        && request.resource.data.ownerUid == request.auth.uid
+        && bookable(request.resource.data.get('branch', null))
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.items is list
+        && request.resource.data.items.size() >= 1 && request.resource.data.items.size() <= 3
+        && request.resource.data.get('date', '2000-01-01').matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && request.resource.data.get('slot', '00:00').matches('^([01][0-9]|2[0-3]):[0-5][0-9]$')
+        && (
+          (request.resource.data.type == 'hold' && request.resource.data.status == 'held'
+            && request.resource.data.itemId is string
+            && holdable(request.resource.data.itemId)
+            && (isStaff() || request.resource.data.customer.email == request.auth.token.email))
+          ||
+          (request.resource.data.type == 'reserve' && request.resource.data.status == 'reserved'
+            && (isStaff() || customerTable()))
+        );
+
+      // Staff move tickets along. A customer may only cancel their own
+      // upcoming reservation. Nothing else about a ticket can change.
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt'])
+        && (
+          (isStaff()
+            && request.resource.data.status in ['raw', 'cooking', 'plated', 'served', 'held', 'collected', 'reserved', 'seated', 'cancelled'])
+          ||
+          (signedIn() && mine()
+            && resource.data.type == 'reserve'
+            && resource.data.status == 'reserved'
+            && resource.data.get('at', request.time + duration.value(1, 'd')) > request.time
+            && request.resource.data.status == 'cancelled'
+            && request.resource.data.updatedAt == request.time)
+        );
+
+      allow delete: if false;
+    }
+
+    // ── menuItems/{id}: the menu ─────────────────────────────────────────
+    // Public, so signed-out visitors can see the feast. Staff and managers
+    // add dishes and edit their details from the dashboard; only managers
+    // hide, show, or remove a dish. scripts/seed-menu.mjs and the Firebase
+    // console use admin access and skip these rules.
+    function validDish(d) {
+      return d.keys().hasOnly(['name', 'tag', 'blurb', 'image', 'alt', 'sort', 'limited', 'hidden', 'updatedAt'])
+        && d.name is string && d.name.size() >= 1 && d.name.size() <= 40
+        && d.get('tag', '') is string && d.get('tag', '').size() <= 30
+        && d.get('blurb', '') is string && d.get('blurb', '').size() <= 160
+        && d.get('alt', '') is string && d.get('alt', '').size() <= 120
+        && d.get('image', '') is string && d.get('image', '').size() <= 500
+        && (d.get('image', '') == '' || d.get('image', '').matches('^https://[^ ]+$'))
+        && d.sort is int && d.sort >= 0 && d.sort <= 9999
+        && d.limited is bool
+        && d.hidden is bool
+        && d.updatedAt == request.time;
+    }
+
+    match /menuItems/{itemId} {
+      allow read: if true;
+      allow create: if isStaff()
+        && itemId.matches('^[a-z0-9-]{1,40}$')
+        && validDish(request.resource.data)
+        && (isManager() || request.resource.data.hidden == false);
+      allow update: if isStaff()
+        && validDish(request.resource.data)
+        && (isManager() || !request.resource.data.diff(resource.data).affectedKeys().hasAny(['hidden']));
+      allow delete: if isManager();
+    }
+
+    // ── branches/{id}: where customers book and pick up ──────────────────
+    // Public, so the Branches page and booking forms can list them. Only
+    // managers add or edit a branch. The id is what tickets store in
+    // `branch`, so a branch is paused (active: false), never deleted.
+    function hhmm(t) { return t is string && t.matches('^([01][0-9]|2[0-3]):[0-5][0-9]$'); }
+    function validBranch(d) {
+      return d.keys().hasOnly(['name', 'address', 'phone', 'open', 'lastSeating', 'close', 'active', 'sort', 'updatedAt'])
+        && d.name is string && d.name.size() >= 1 && d.name.size() <= 40
+        && d.address is string && d.address.size() >= 1 && d.address.size() <= 120
+        && d.get('phone', '') is string && d.get('phone', '').size() <= 20
+        && hhmm(d.open) && hhmm(d.lastSeating) && hhmm(d.close)
+        && d.open < d.lastSeating && d.lastSeating <= d.close
+        && d.active is bool
+        && d.sort is int && d.sort >= 0 && d.sort <= 9999
+        && d.updatedAt == request.time;
+    }
+
+    match /branches/{branchId} {
+      allow read: if true;
+      allow create: if isManager()
+        && branchId.matches('^[A-Za-z0-9-]{1,40}$')
+        && validBranch(request.resource.data);
+      allow update: if isManager() && validBranch(request.resource.data);
+      allow delete: if false;
+    }
+
+    // ── auditLogs/{id}: append-only ──────────────────────────────────────
+    // Entries are written under your own email and role, stamped by the
+    // server, and can never be edited or deleted — not even by a manager.
+    match /auditLogs/{logId} {
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['actor', 'role', 'action', 'target', 'createdAt'])
+        && request.resource.data.actor == request.auth.token.email
+        && request.resource.data.role == me().role
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.action in ['Placed hold', 'Created reserve', 'Booked table', 'Cancelled reserve', 'Hid from menu', 'Returned to menu', 'Added dish', 'Edited dish', 'Removed dish', 'Viewed account', 'Added branch', 'Edited branch']
+        && request.resource.data.target is string && request.resource.data.target.size() <= 120;
+      allow read: if isManager();
+      allow update, delete: if false;
+    }
+
+    // Anything not matched above is closed.
+  }
+}

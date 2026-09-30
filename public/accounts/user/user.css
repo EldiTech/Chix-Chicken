@@ -1,0 +1,84 @@
+.member-top { display: flex; justify-content: space-between; gap: 2rem; align-items: end; }
+.pass { padding: 2rem; background: var(--red); color: var(--cream); }
+.pass h2 { font: 700 clamp(2.5rem, 5vw, 4.5rem) /.9 Fredoka, sans-serif; margin: .6rem 0; }
+.pass small { font-family: 'DM Mono', monospace; }
+.pass .eyebrow { color: var(--mango); }
+.pass-email { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+.pass-rule { border: 0; border-top: 1px dashed var(--mango); margin: 1.25rem 0; }
+.section-space { margin-top: 1.5rem; }
+.settings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; align-items: start; }
+.settings > div { grid-column: 1 / -1; display: flex; align-items: center; gap: .75rem; margin-top: .15rem; }
+.settings > div .save-note { min-height: 1.25rem; }
+.user-nav { display: flex; gap: 1rem; align-items: center; }
+.user-nav a { font-size: .82rem; font-weight: 900; text-decoration: none; }
+.text-link { font-weight: 900; }
+
+/* Live cards */
+.card-body { display: grid; gap: .75rem; justify-items: start; }
+.card-body .lede { margin: 0; }
+.status-pill { margin: 0; padding: .25rem .6rem; border: 2px solid var(--ink); background: var(--mango); font: 500 .68rem/1.2 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+.mine-list { list-style: none; margin: 0; padding: 0; width: 100%; display: grid; gap: .5rem; }
+.mine-row { display: grid; grid-template-columns: auto 1fr auto; gap: .25rem .75rem; align-items: center; padding: .6rem .75rem; border: 2px solid var(--ink); background: #fffdf7; text-decoration: none; }
+.mine-row:hover, .mine-row:focus-visible { background: var(--paper); }
+.mine-no { font: 500 .8rem 'DM Mono', monospace; color: var(--red); }
+.mine-items { font-weight: 800; min-width: 0; overflow-wrap: anywhere; }
+.mine-time { grid-column: 2 / -1; color: var(--muted); font-weight: 700; }
+.holds { margin-top: 1.25rem; }
+.holds-label { margin: 0 0 .6rem; }
+.save-note[data-state="error"] { color: var(--chili); font-weight: 800; }
+.save-note[data-state="ok"] { color: var(--leaf); font-weight: 800; }
+
+/* Ticket detail */
+.detail { padding: 2rem; max-width: 640px; }
+.detail dl { display: grid; grid-template-columns: max-content 1fr; gap: .6rem 1.25rem; margin: 1.5rem 0; }
+.detail dt { font: 500 .68rem/1.6 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--red); }
+.detail dd { margin: 0; font-weight: 800; }
+.detail-actions { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .member-top, .settings { display: grid; grid-template-columns: 1fr; }
+  .settings > div { grid-column: 1; align-items: flex-start; flex-direction: column; gap: .4rem; }
+  .user-nav a:not(.nav-cta) { display: none; }
+  .detail { padding: 1.35rem; }
+  .detail dl { grid-template-columns: 1fr; gap: .2rem; }
+  .detail dd { margin-bottom: .6rem; }
+}
+
+/* Book a table */
+.book-head .display { font-size: clamp(2.6rem, 6vw, 5rem); }
+.book-steps { list-style: none; display: flex; gap: .5rem 1.5rem; flex-wrap: wrap; margin: 1.5rem 0; padding: 0; }
+.book-steps li { display: flex; align-items: center; gap: .5rem; font-weight: 900; color: var(--muted); }
+.book-steps li span { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border: 2px solid var(--muted); font: 500 .8rem 'DM Mono', monospace; }
+.book-steps li[aria-current] { color: var(--ink); }
+.book-steps li[aria-current] span { border-color: var(--ink); background: var(--mango); }
+.book-steps li.is-done span { border-color: var(--ink); background: var(--ink); color: var(--cream); }
+.book-card { padding: 2rem; max-width: 720px; display: grid; gap: 1.25rem; }
+.book-step { border: 0; margin: 0; padding: 0; display: grid; gap: 1.25rem; min-width: 0; }
+.book-step[hidden] { display: none; }
+.book-step legend { padding: 0; margin-bottom: 1.25rem; }
+.book-step legend:focus { outline: none; }
+.field-label { font-weight: 900; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; margin: 0; }
+.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr)); gap: .5rem; }
+.slot { border: 2px solid var(--ink); background: #fffdf7; padding: .6rem .4rem; font-weight: 800; cursor: pointer; color: var(--ink); }
+.slot:hover { background: var(--paper); }
+.slot[aria-checked="true"] { background: var(--mango); box-shadow: 3px 3px 0 var(--ink); }
+.slot:focus-visible { outline: 3px solid var(--chili); outline-offset: 2px; }
+.stepper { display: flex; gap: .5rem; max-width: 14rem; }
+.stepper .btn-ghost { width: 3rem; justify-content: center; font-size: 1.3rem; cursor: pointer; }
+.stepper .form-input { text-align: center; font-weight: 900; }
+.book-review { display: grid; grid-template-columns: max-content 1fr; gap: .5rem 1.25rem; margin: 0; }
+.book-review dt { font: 500 .68rem/1.8 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--red); }
+.book-review dd { margin: 0; font-weight: 800; overflow-wrap: anywhere; }
+.book-actions { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: flex-end; }
+.book-actions .btn-ghost { cursor: pointer; }
+.book-done:focus { outline: none; }
+.book-no { margin: 0; font: 700 clamp(2.4rem, 6vw, 3.6rem)/1 Fredoka, sans-serif; color: var(--red); letter-spacing: .02em; }
+.notice[hidden], .book-done[hidden], .book-card[hidden], .book-steps[hidden], .book-actions [hidden] { display: none; }
+@media (max-width: 720px) {
+  .book-card { padding: 1.35rem; }
+  .book-review { grid-template-columns: 1fr; gap: .1rem; }
+  .book-review dd { margin-bottom: .5rem; }
+  .book-actions { justify-content: stretch; }
+  .book-actions > * { flex: 1 1 100%; justify-content: center; }
+}
+.card-links { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; margin: 0; }
